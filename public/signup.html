@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignIn&SignUp</title>
+    <link rel="stylesheet" type="text/css" href="./css/signup.css" />
+    
+    <script
+      src="https://kit.fontawesome.com/64d58efce2.js"
+      crossorigin="anonymous"
+    ></script>
+  
+  </head>
+  <body>
+    <div class="container">
+      <div class="forms-container">
+        <div class="signin-signup">
+          <!-- SignIN Form -->
+          <form action="" class="sign-in-form" id="signin-form">
+            <h2 class="title">Sign In</h2>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Username" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-envelope"></i>
+              <input type="email" name="email" placeholder="Email" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="password" placeholder="Password" required />
+              <i class="fas fa-eye toggle-password" id="togglePassword"><img src="./img/view.svg" height="20px" width="20px" class="image"></i>
+            </div>           
+            <div class="input-field">
+              <i class="fas fa-user-tag"></i>
+              <select id="signin-role" required>
+                <option value="" disabled selected>Select your role</option>
+                <option value="shipper">Shipper</option>
+                <option value="bidder">Bidder</option>
+              </select>              
+            </div> 
+            <input type="submit" value="Login" class="btn solid" />
+          </form>
+
+          <!-- SignUp Form -->
+          <form action="" class="sign-up-form" id="signup-form">
+            <h2 class="title">Sign Up</h2>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" name="username" placeholder="Username" required />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-envelope"></i>
+              <input type="email" name="email" placeholder="Email" required />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="signup-password" placeholder="Password" required />
+              <i class="fas fa-eye toggle-password" id="signup-togglePassword"><img src="./img/view.svg" height="20px" width="20px" class="image"></i>
+            </div>                      
+            <div class="input-field">
+              <i class="fas fa-user-tag"></i>
+              <select id="signup-role" name="signup-role" required>
+                <option value="" disabled selected>Select your role</option>
+                <option value="shipper">Shipper</option>
+                <option value="bidder">Bidder</option>
+              </select>
+            </div>
+            <input type="submit" value="Sign Up" class="btn solid" />
+          </form>          
+        </div>
+      </div>
+      <div class="panels-container">
+
+        <div class="panel left-panel">
+            <div class="content">
+                <h3>New here?</h3>
+                <p>Pain itself, it is to be loved, the main thing. A choice, less born, it is.</p>
+                <button class="btn transparent" id="sign-up-btn">Sign Up</button>
+            </div>
+            <img src="./img/log.svg" class="image" alt="">
+        </div>
+
+        <div class="panel right-panel">
+            <div class="content">
+                <h3>One of us?</h3>
+                <p>Pain itself, it is to be loved, the main thing. A choice, less born, it is.</p>
+                <button class="btn transparent" id="sign-in-btn">Sign In</button>
+            </div>
+            <img src="./img/register.svg" class="image" alt="">
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/signup.js"></script>
+
+  <script type="module">
+      import { auth, db } from './js/firebase.js';
+      import {
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword
+      } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
+    
+      import {
+        doc,
+        setDoc,
+        getDoc
+      } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
+    
+      // Reset selects on load
+      document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("signin-role").selectedIndex = 0;
+        document.getElementById("signup-role").selectedIndex = 0;
+      });
+    
+      // ================= SIGN UP =================
+      const signupForm = document.getElementById('signup-form');
+      signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = signupForm['email'].value;
+        const password = signupForm['signup-password'].value;
+        const role = signupForm['signup-role'].value;
+        const username = signupForm['username'].value;
+
+        try {
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+
+          await setDoc(doc(db, "users", user.uid), {
+            email: email,
+            username: username,
+            role: role
+          });
+
+          alert("🎉 Signup successful!");
+          console.log('User signed up and saved in Firestore:', user.uid);
+          signupForm.reset();  // Optional: clear the form
+
+        } catch (error) {
+          alert("Error: " + error.message);
+          console.error("Signup error:", error.message);
+        }
+      });
+    
+      // ================= SIGN IN =================
+      const signInForm = document.querySelector(".sign-in-form");
+
+      signInForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        // Get user input
+        const email = signInForm.email.value.trim();
+        const password = signInForm.password.value.trim();
+
+        // Input validation
+        if (!email || !password) {
+          alert("Please enter both email and password.");
+          return; 
+        }
+
+        // Validate email format (basic check for a valid email)
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailPattern.test(email)) {
+          alert("Please enter a valid email address.");
+          return;
+        }
+
+        // Firebase authentication sign-in attempt
+        signInWithEmailAndPassword(auth, email, password)
+        .then(async (userCredential) => {
+          const user = userCredential.user;
+
+          const userDocRef = doc(db, "users", user.uid);
+          const userDoc = await getDoc(userDocRef);
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            const userRole = userData.role; 
+
+            // Redirect based on user role
+            if (userRole === "shipper") {
+              window.location.href = "./shipper-dashboard.html";  
+            } else if (userRole === "bidder") {
+              window.location.href = "./bidder-dashboard.html"; 
+            } else {
+              alert("Unknown role. Please contact support.");
+            }
+          } else {
+            alert("User data not found. Please sign up first.");
+          }
+          })
+          .catch((error) => {
+            // Handle Firebase specific errors
+            const errorCode = error.code;
+            const errorMessage = error.message;
+
+            if (errorCode === "auth/user-not-found" || errorCode === "auth/wrong-password" || errorCode==="auth/invalid-credential") {
+              alert("Invalid email or password! Please try again.");
+            } else {
+              // General error handling
+              console.error("Error:", errorMessage);
+            }
+          });
+      });
+    </script>
+
+
+    <!-- password view (signin)   -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+      const toggle = document.getElementById("togglePassword");
+      const password = document.getElementById("password");
+
+      toggle.addEventListener("click", () => {
+        const type = password.type === "password" ? "text" : "password";
+        password.type = type;
+
+        // Change icon
+        toggle.classList.toggle("fa-eye");
+        toggle.classList.toggle("fa-eye-slash");
+      });
+    });
+    </script>
+    
+    <!--For signup  -->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+      const toggle = document.getElementById("signup-togglePassword");
+      const password = document.getElementById("signup-password");
+
+      toggle.addEventListener("click", () => {
+        const type = password.type === "password" ? "text" : "password";
+        password.type = type;
+
+        // Change icon
+        toggle.classList.toggle("fa-eye");
+        toggle.classList.toggle("fa-eye-slash");
+      });
+    });
+    </script>  
+
+  </body>
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidder Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- navbar -->
+    <section>
+            <header class="p-3 mb-3 border-bottom shadow-sm bg-light sticky-top">
+              <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                  <a href="./bidder-dashboard.html" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+                    <img src="./img/logo_nobg.png" width="65px" height="45px">
+                  </a>
+          
+                  <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="#" class="nav-link px-3 link-secondary hover-effect">Overview</a></li>
+                    <li><a href="#" class="nav-link px-3 link-body-emphasis hover-effect">Inventory</a></li>
+                    <li><a href="#" class="nav-link px-3 link-body-emphasis hover-effect">Customers</a></li>
+                    <li><a href="#" class="nav-link px-3 link-body-emphasis hover-effect">Products</a></li>
+                  </ul>
+          
+                  <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                    <input type="search" class="form-control shadow-sm" placeholder="Search..." aria-label="Search">
+                  </form>
+          
+                  <div class="dropdown text-end">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                        <i class="bi bi-person-circle fs-3"></i> 
+                    </a>
+                    <ul class="dropdown-menu text-small shadow-sm">
+                      <li><a class="dropdown-item hover-effect" href="#">New project...</a></li>
+                      <li><a class="dropdown-item hover-effect" href="#">Settings</a></li>
+                      <li><a class="dropdown-item hover-effect" href="#">Profile</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item hover-effect" href="#">Sign out</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+               <!-- Sidebar Toggle Button (visible on mobile only) -->
+                <nav class="navbar bg-light d-md-none shadow-sm mt-2">
+                    <div class="container-fluid">
+                    <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="bi bi-list fs-3"></i>
+                    </button>
+                    </div>
+                </nav>
+            </header>
+          
+          <style>
+            .hover-effect {
+              transition: all 0.3s ease;
+            }
+          
+            .hover-effect:hover {
+              background-color: #e9ecef;
+              border-radius: 5px;
+              color: #000;
+              cursor: pointer;
+            }
+          
+            .form-control:focus {
+              box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
+          
+            .dropdown-menu .dropdown-item:hover {
+              background-color: #f8f9fa;
+            }
+          
+            .dropdown-toggle {
+              transition: transform 0.2s ease;
+            }
+          
+            .dropdown-toggle:hover {
+              transform: scale(1.05);
+            }
+          </style>          
+    </section>
+
+    <div class="d-flex" style="min-height: 100vh;">  
+        <!-- Sidebar -->
+        <div class="collapse d-md-block" id="sidebarMenu">
+            <div class="d-flex flex-column flex-shrink-0 p-3 bg-light shadow-sm rounded mt-2" style="width: 280px; min-height: 160vh;">
+                <a href="./bidder-dashboard.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                    <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" 
+                         alt="Profile" width="40" height="40" 
+                         class="rounded-circle shadow-sm me-2" />
+                    <div>
+                      <span class="fs-6 fw-semibold text-dark" id="welcomeUser">Welcome!</span><br>
+                      <small class="text-muted" id="userEmail">Loading...</small>
+                    </div>
+                  </a>
+                  
+              <hr>
+              <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                  <a href="#" class="nav-link link-dark hover-effect">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true"><use xlink:href="#home"></use></svg>
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="nav-link link-dark hover-effect">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true"><use xlink:href="#speedometer2"></use></svg>
+                    Dashboard
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="nav-link link-dark hover-effect">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true"><use xlink:href="#table"></use></svg>
+                    Orders
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="nav-link link-dark hover-effect">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true"><use xlink:href="#grid"></use></svg>
+                    Products
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="nav-link link-dark hover-effect">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true"><use xlink:href="#people-circle"></use></svg>
+                    Customers
+                  </a>
+                </li>
+              </ul>
+              <hr>
+              <div class="dropdown">
+                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle hover-effect" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="https://github.com/mdo.png" alt="User" width="32" height="32" class="rounded-circle me-2 shadow-sm">
+                  <strong>mdo</strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow">
+                  <li><a class="dropdown-item hover-effect" href="#">New project...</a></li>
+                  <li><a class="dropdown-item hover-effect" href="#">Settings</a></li>
+                  <li><a class="dropdown-item hover-effect" href="#">Profile</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item hover-effect" href="#">Sign out</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <style>
+            .hover-effect {
+              transition: background-color 0.3s ease, color 0.3s ease;
+              border-radius: 0.375rem;
+            }
+          
+            .hover-effect:hover {
+              background-color: #e9ecef;
+              color: #000;
+              cursor: pointer;
+            }
+          
+            .nav-link.active {
+              background-color: #0d6efd !important;
+              color: #fff !important;
+              font-weight: 500;
+              border-radius: 0.375rem;
+            }
+          
+            .nav-link svg {
+              vertical-align: middle;
+            }
+          
+            .shadow-sm {
+              box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            }
+          
+            .rounded {
+              border-radius: 0.5rem !important;
+            }
+          </style>
+          
+
+    <!-- main section -->
+    <main class="flex-grow-1">  
+          <!-- Table -->
+
+          <section class="products-won-section px-3 py-4">
+            <div class="card shadow-sm border-0">
+              <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">🎉 Products You've Won</h5>
+                <button class="btn btn-sm btn-light" onclick="refreshTable()">⟳</button>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" id="productsWonTable">
+                  <thead class="table-light">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Product</th>
+                      <th scope="col">Bid Price</th>
+                      <th scope="col">Date Won</th>
+                    </tr>
+                  </thead>
+                  <tbody id="productsWonTableBody">
+                    <!-- dynamic rows go here -->
+                  </tbody>
+                </table>                
+              </div>
+              <div class="card-footer d-flex justify-content-between align-items-center">
+                <small class="text-muted">Showing 4 of 10</small>
+                <nav>
+                  <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item disabled"><a class="page-link">Prev</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Current Available Products -->
+          <section>
+            <div class="container my-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h4 class="fw-semibold">Available Shipping Items</h4>
+                  <select id="stateFilter" class="form-select w-auto shadow-sm">
+                    <option value="All">All States</option>
+                  </select>
+                </div>
+              
+                <div id="productContainer" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"></div>
+              </div>
+            
+              <style>
+                    .card {
+                        border: none;
+                        border-radius: 1rem;
+                        transition: transform 0.3s ease;
+                        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+                    }
+
+                    .card:hover {
+                        transform: translateY(-5px);
+                    }
+
+                    .card-img-top {
+                        height: 200px;
+                        object-fit: cover;
+                        border-top-left-radius: 1rem;
+                        border-top-right-radius: 1rem;
+                    }
+
+                    .card-body h5 {
+                        font-size: 1.2rem;
+                        font-weight: 600;
+                    }
+
+                    .card-body p {
+                        font-size: 0.95rem;
+                        color: #555;
+                    }
+
+              </style>
+          </section>
+
+               <!-- Footer -->
+<section style="background-color: #f8f9fa;">
+    <div class="container py-5">
+      <footer>
+        <div class="row">
+  
+          <!-- Quick Links Column 1 -->
+          <div class="col-6 col-md-2 mb-4">
+            <h5 class="text-dark">Company</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+            </ul>
+          </div>
+  
+          <!-- Quick Links Column 2 -->
+          <div class="col-6 col-md-2 mb-4">
+            <h5 class="text-dark">Support</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Help Center</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Contact</a></li>
+            </ul>
+          </div>
+  
+          <!-- Quick Links Column 3 -->
+          <div class="col-6 col-md-2 mb-4">
+            <h5 class="text-dark">Resources</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Blog</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Docs</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Community</a></li>
+            </ul>
+          </div>
+  
+          <!-- Newsletter Signup -->
+          <div class="col-md-5 offset-md-1 mb-4">
+            <form>
+              <h5 class="text-dark">Subscribe to our newsletter</h5>
+              <p class="text-muted">Get monthly updates, news, and resources.</p>
+              <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                <input id="newsletter1" type="email" class="form-control shadow-sm" placeholder="Email address">
+                <button class="btn btn-primary shadow-sm" type="submit">Subscribe</button>
+              </div>
+            </form>
+          </div>
+  
+        </div>
+  
+        <!-- Bottom Footer -->
+        <div class="d-flex flex-column flex-sm-row justify-content-between py-4 mt-4 border-top">
+          <p class="mb-0 text-muted">© 2025 YourCompany. All rights reserved.</p>
+          <ul class="list-unstyled d-flex">
+            <li class="ms-3">
+              <a class="text-muted" href="#" aria-label="Instagram">
+                <i class="bi bi-instagram fs-5"></i>
+              </a>
+            </li>
+            <li class="ms-3">
+              <a class="text-muted" href="#" aria-label="Facebook">
+                <i class="bi bi-facebook fs-5"></i>
+              </a>
+            </li>
+            <li class="ms-3">
+              <a class="text-muted" href="#" aria-label="Twitter">
+                <i class="bi bi-twitter fs-5"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </footer>
+    </div>
+    
+    <style>
+        footer a:hover {
+            color: #0d6efd !important;
+            text-decoration: underline;
+            transition: 0.2s ease-in-out;
+        }
+
+        input[type="email"]:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+
+    </style>
+  </section>
+
+</main>
+</div>
+      
+  
+      
+  <!-- for firebase and display products -->
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js"; 
+  
+    const firebaseConfig = {
+      apiKey: "AIzaSyCt6CP-X7ds3fh8XK72fDx-4sMk1LFcOZk",
+      authDomain: "shipping-wars.firebaseapp.com",
+      projectId: "shipping-wars",
+      storageBucket: "shipping-wars.firebasestorage.app",
+      messagingSenderId: "513999333956",
+      appId: "1:513999333956:web:8327a647aa8f3efa15ea11",
+      measurementId: "G-JPYNN55M3X"
+    };
+  
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app); // <-- This was missing
+  
+    const container = document.getElementById('productContainer');
+    const stateFilter = document.getElementById('stateFilter');
+    let allPosts = [];
+  
+    async function fetchProducts() {
+      const querySnapshot = await getDocs(collection(db, "shippingPosts"));
+      const states = new Set();
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        data.id = doc.id;  // Explicitly add the document ID to the data
+        allPosts.push(data);
+        states.add(data.state);
+      });
+
+      // Populate dropdown
+      [...states].sort().forEach(state => {
+        const opt = document.createElement("option");
+        opt.value = state;
+        opt.textContent = state;
+        stateFilter.appendChild(opt);
+      });
+
+      renderCards(allPosts);
+    }
+
+  
+    function renderCards(posts) {
+      container.innerHTML = '';
+
+      if (posts.length === 0) {
+        container.innerHTML = `<p class="text-muted">No items available for this state.</p>`;
+        return;
+      }
+
+      posts.forEach(post => {
+        const auctionUrl = `./auction-room.html?postId=${post.id}&uid=${auth.currentUser ? auth.currentUser.uid : ''}&username=${encodeURIComponent(auth.currentUser ? auth.currentUser.displayName : 'Guest')}&email=${encodeURIComponent(auth.currentUser ? auth.currentUser.email : '')}`;
+
+        container.innerHTML += `
+          <div class="col">
+            <div class="card h-100">
+              <img src="${post.imageURL}" class="card-img-top" alt="${post.itemName}">
+              <div class="card-body">
+                <h5 class="card-title">${post.itemName}</h5>
+                <p class="card-text">${post.itemDesc}</p>
+                <p class="small text-muted mb-1">Pickup: <strong>${post.pickup}</strong> → Dropoff: <strong>${post.dropoff}</strong></p>
+                <p class="small text-muted">State: <strong>${post.state}</strong></p>
+                <a href="${auctionUrl}" class="btn btn-outline-primary btn-sm">View Auction</a>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+
+    // New function to handle "View Auction" button click
+    function viewAuction(event) {
+      const postId = event.target.dataset.postId;
+      const user = auth.currentUser;
+      const username = user ? user.displayName || user.email.split('@')[0] : 'Guest';
+      const email = user ? user.email : null;
+      const uid = user ? user.uid : null;
+
+      // Redirect to the auction page with product data and user credentials
+      window.location.href = `auction-room.html?postId=${postId}&uid=${uid}&username=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}`;
+    }
+
+  
+    // Filter logic
+    stateFilter.addEventListener('change', () => {
+      const selected = stateFilter.value;
+      if (selected === "All") {
+        renderCards(allPosts);
+      } else {
+        const filtered = allPosts.filter(post => post.state === selected);
+        renderCards(filtered);
+      }
+    });
+  
+    fetchProducts();
+  
+    // Watch for auth state changes
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const username = user.displayName || user.email.split("@")[0];
+        const email = user.email;
+        const uid = user.uid;
+
+        document.getElementById("welcomeUser").textContent = `Welcome, ${username}`;
+        document.getElementById("userEmail").textContent = `${email}`;
+
+        console.log("User UID:", uid);
+
+        // ✅ Call loadWonProducts only when user is authenticated
+        loadWonProducts(email);
+      } else {
+        document.getElementById("welcomeUser").textContent = `Welcome, Guest`;
+        document.getElementById("userEmail").textContent = `Please log in`;
+      }
+});
+
+
+// Function to load products the user has won
+async function loadWonProducts(currentUserEmail) {
+  const productsWonTable = document.getElementById("productsWonTableBody");
+  productsWonTable.innerHTML = ""; // Clear the table initially
+
+  if (!currentUserEmail) {
+    console.error("No user is logged in.");
+    return;
+  }
+
+  try {
+    const bidsRef = collection(db, "bids");
+    const q = query(bidsRef, where("currentWinner", "==", currentUserEmail));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      
+      let index = 1;
+      for (const bidDoc of querySnapshot.docs) {
+        const bidData = bidDoc.data();
+        const postId = bidDoc.id;
+
+        const productRef = doc(db, "shippingPosts", postId);
+        
+        const productSnap = await getDoc(productRef);
+        
+        if (productSnap.exists()) {
+          const productData = productSnap.data();
+          const productName = productData.itemName || "Unknown Product";
+          const productPrice = bidData.currentBid || "Unknown Price";
+          // Get timestamp from last element of allBids
+          const allBids = bidData.allBids || [];
+          const lastBid = allBids.length > 0 ? allBids[allBids.length - 1] : null;
+          const dateWon = (lastBid && lastBid.timestamp) ? 
+              lastBid.timestamp.toDate().toLocaleString() : 
+              "Unknown Date";
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <th scope="row">${index++}</th>
+            <td>${productName}</td>
+            <td>₹${productPrice}</td>
+            <td>${dateWon}</td>
+          `;
+          productsWonTable.appendChild(row);
+        } else {
+          console.log("No product found for postId:", postId);
+        }
+      }
+    } else {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td colspan="4" class="text-center">No products won yet.</td>`;
+      productsWonTable.appendChild(row);
+    }
+  } catch (error) {
+    console.error("Error fetching bids or products:", error);
+  }
+}
+
+
+</script>
+  
+</body>
+</html>

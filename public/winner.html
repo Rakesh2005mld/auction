@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Winner Details</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .product-img { max-height: 400px; object-fit: cover; }
+    .section-header { background-color: #f8f9fa; padding: 1rem; margin-bottom: 1.5rem; border-radius: 0.5rem; }
+    .badge-label { font-size: 0.85rem; }
+  </style>
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <div class="section-header text-center">
+      <h2 class="fw-bold">📦 Product Auction Details</h2>
+    </div>
+
+    <div id="productSection" class="row mb-4"></div>
+    <div id="winnerSection" class="row"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCt6CP-X7ds3fh8XK72fDx-4sMk1LFcOZk",
+      authDomain: "shipping-wars.firebaseapp.com",
+      projectId: "shipping-wars",
+      storageBucket: "shipping-wars.appspot.com",
+      messagingSenderId: "513999333956",
+      appId: "1:513999333956:web:8327a647aa8f3efa15ea11"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get("postId");
+
+    async function loadProductDetails() {
+      const productRef = doc(db, "shippingPosts", productId);
+      const productSnap = await getDoc(productRef);
+
+      if (!productSnap.exists()) {
+        document.getElementById("productSection").innerHTML = `<div class="alert alert-danger">Product not found.</div>`;
+        return;
+      }
+
+      const data = productSnap.data();
+      document.getElementById("productSection").innerHTML = `
+        <div class="col-md-6">
+          <img src="${data.imageURL}" alt="${data.itemName}" class="img-fluid product-img rounded shadow">
+        </div>
+        <div class="col-md-6">
+          <h3>${data.itemName}</h3>
+          <p class="text-muted">${data.itemDesc}</p>
+          <p><strong>Pickup:</strong> ${data.pickup}</p>
+          <p><strong>Dropoff:</strong> ${data.dropoff}</p>
+          <p><strong>State:</strong> ${data.state}</p>
+        </div>
+      `;
+
+      await loadWinnerDetails();
+    }
+
+    async function loadWinnerDetails() {
+      const bidRef = doc(db, "bids", productId);
+      const bidSnap = await getDoc(bidRef);
+
+      if (!bidSnap.exists()) {
+        document.getElementById("winnerSection").innerHTML = `<div class="alert alert-warning">No winner data found yet.</div>`;
+        return;
+      }
+
+      const bidData = bidSnap.data();
+      const lastBid = bidData.allBids && bidData.allBids.length > 0
+        ? bidData.allBids[bidData.allBids.length - 1]
+        : null;
+
+      const winner = bidData.currentWinner || "Not available";
+      const winningBid = bidData.currentBid || "N/A";
+      const date = lastBid && lastBid.timestamp
+        ? new Date(lastBid.timestamp.seconds * 1000).toLocaleString()
+        : "Unknown Date";
+
+      document.getElementById("winnerSection").innerHTML = `
+        <div class="col-12">
+          <div class="card border-success shadow-sm">
+            <div class="card-header bg-success text-white">
+              🏆 <strong>Winner Information</strong>
+            </div>
+            <div class="card-body">
+              <p><strong>Email:</strong> ${winner}</p>
+              <p><strong>Winning Bid:</strong> ₹${winningBid}</p>
+              <p><strong>Date Won:</strong> ${date}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    loadProductDetails();
+  </script>
+</body>
+</html>

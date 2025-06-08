@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shipper Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #f4f6f8;
+    }
+
+    nav {
+      background-color: #004d99;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    nav h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav ul li {
+      cursor: pointer;
+    }
+
+    .container {
+      padding: 2rem;
+    }
+
+    .post-section, .recent-section {
+      background-color: white;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .post-section h2, .recent-section h2 {
+      margin-top: 0;
+      color: #004d99;
+    }
+
+    .post-form input, .post-form textarea, .post-form button {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .post-form button {
+      background-color: #004d99;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .post-form button:hover {
+      background-color: #003366;
+    }
+
+    .items-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    footer {
+      background-color: #004d99;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+  .items-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Clean spacing between cards */
+    justify-content: flex-start;
+    }
+
+
+    .item-card {
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        padding: 16px;
+        max-width: 300px;
+        background-color: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        flex: 1 1 250px; /* Flexible width with min limit */
+    }
+
+
+    .item-card img.item-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin: 10px 0;
+    }
+
+
+  .item-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .item-card h3 {
+    margin-top: 0;
+    color: #2c3e50;
+  }
+
+  .item-card .item-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    margin: 10px 0;
+    border-radius: 8px;
+  }
+
+  .item-card p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+    color: #444;
+  }
+
+    #stateFilter {
+        padding: 10px 15px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #fff;
+        color: #333;
+        outline: none;
+        margin-top: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: border 0.3s ease;
+    }
+
+    #stateFilter:hover {
+        border-color: #888;
+    }
+
+    #stateFilter:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    }
+
+    label[for="stateFilter"] {
+        display: block;
+        font-weight: bold;
+        font-size: 1rem;
+        margin-top: 20px;
+        margin-bottom: 5px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <h1>Shipper Dashboard</h1>
+    <ul>
+      <li><a style="color: white;" href="./shipper-dashboard.html"> Home</a></li>
+      <li><a style="color: white;" href="./myposts.html"> My Posts</a></li>
+      <li><a style="color: white;" href="./signup.html"> Logout</a></li>
+    </ul>
+  </nav>
+
+
+  <div class="container">
+    <!-- Post Item Section -->
+    <div class="post-section">
+        <h2>Post an Item to Ship</h2>
+        <form class="post-form" id="postForm">
+          <input type="text" id="itemName" placeholder="Item Name" required />
+          <textarea id="itemDesc" rows="4" placeholder="Description" required></textarea>
+          <label for="state">State:</label>
+<select id="state" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px;">
+    <option value="" disabled selected style="color: #777;">Select State</option>
+    <option value="Andhra Pradesh" style="padding: 8px;">Andhra Pradesh</option>
+    <option value="Arunachal Pradesh" style="padding: 8px;">Arunachal Pradesh</option>
+    <option value="Assam" style="padding: 8px;">Assam</option>
+    <option value="Bihar" style="padding: 8px;">Bihar</option>
+    <option value="Chhattisgarh" style="padding: 8px;">Chhattisgarh</option>
+    <option value="Goa" style="padding: 8px;">Goa</option>
+    <option value="Gujarat" style="padding: 8px;">Gujarat</option>
+    <option value="Haryana" style="padding: 8px;">Haryana</option>
+    <option value="Himachal Pradesh" style="padding: 8px;">Himachal Pradesh</option>
+    <option value="Jharkhand" style="padding: 8px;">Jharkhand</option>
+    <option value="Karnataka" style="padding: 8px;">Karnataka</option>
+    <option value="Kerala" style="padding: 8px;">Kerala</option>
+    <option value="Madhya Pradesh" style="padding: 8px;">Madhya Pradesh</option>
+    <option value="Maharashtra" style="padding: 8px;">Maharashtra</option>
+    <option value="Manipur" style="padding: 8px;">Manipur</option>
+    <option value="Meghalaya" style="padding: 8px;">Meghalaya</option>
+    <option value="Mizoram" style="padding: 8px;">Mizoram</option>
+    <option value="Nagaland" style="padding: 8px;">Nagaland</option>
+    <option value="Odisha" style="padding: 8px;">Odisha</option>
+    <option value="Punjab" style="padding: 8px;">Punjab</option>
+    <option value="Rajasthan" style="padding: 8px;">Rajasthan</option>
+    <option value="Sikkim" style="padding: 8px;">Sikkim</option>
+    <option value="Tamil Nadu" style="padding: 8px;">Tamil Nadu</option>
+    <option value="Telangana" style="padding: 8px;">Telangana</option>
+    <option value="Tripura" style="padding: 8px;">Tripura</option>
+    <option value="Uttar Pradesh" style="padding: 8px;">Uttar Pradesh</option>
+    <option value="Uttarakhand" style="padding: 8px;">Uttarakhand</option>
+    <option value="West Bengal" style="padding: 8px;">West Bengal</option>
+    <option value="Andaman and Nicobar Islands" style="padding: 8px;">Andaman and Nicobar Islands</option>
+    <option value="Chandigarh" style="padding: 8px;">Chandigarh</option>
+    <option value="Dadra and Nagar Haveli and Daman and Diu" style="padding: 8px;">Dadra and Nagar Haveli and Daman and Diu</option>
+    <option value="Delhi" style="padding: 8px;">Delhi</option>
+    <option value="Jammu and Kashmir" style="padding: 8px;">Jammu and Kashmir</option>
+    <option value="Ladakh" style="padding: 8px;">Ladakh</option>
+    <option value="Lakshadweep" style="padding: 8px;">Lakshadweep</option>
+    <option value="Puducherry" style="padding: 8px;">Puducherry</option>
+</select>
+
+          <input type="text" id="pickup" placeholder="Pickup Location" required />
+          <input type="text" id="dropoff" placeholder="Drop-off Location" required />
+      
+          <!-- Image Upload -->
+          <label for="imageURL" style="font-weight: 700;">Image URL:</label>
+          <input type="url" id="imageURL" placeholder="https://example.com/image.jpg (recommended size:300x300)" required />
+      
+          <!-- Auction Time -->
+          <label for="startTime" style="font-weight: 700;">Auction Start Time:</label>
+          <input type="datetime-local" id="startTime" required />
+      
+          <label for="endTime" style="font-weight: 700;">Auction End Time:</label>
+          <input type="datetime-local" id="endTime" required />
+      
+          <button type="submit">Post Item</button>
+        </form>
+      </div>      
+
+    <!-- Recent Items Section -->
+    <div class="recent-section">
+        <h2>Recent Items to Ship</h2>
+        <div class="filter-section">
+            <label for="stateFilter"><strong>Filter by State:</strong></label>
+            <select id="stateFilter">
+              <option value="All">All States</option>
+              <option value="Andhra Pradesh">Andhra Pradesh</option>
+              <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+              <option value="Assam">Assam</option>
+              <option value="Bihar">Bihar</option>
+              <option value="Chhattisgarh">Chhattisgarh</option>
+              <option value="Goa">Goa</option>
+              <option value="Gujarat">Gujarat</option>
+              <option value="Haryana">Haryana</option>
+              <option value="Himachal Pradesh">Himachal Pradesh</option>
+              <option value="Jharkhand">Jharkhand</option>
+              <option value="Karnataka">Karnataka</option>
+              <option value="Kerala">Kerala</option>
+              <option value="Madhya Pradesh">Madhya Pradesh</option>
+              <option value="Maharashtra">Maharashtra</option>
+              <option value="Manipur">Manipur</option>
+              <option value="Meghalaya">Meghalaya</option>
+              <option value="Mizoram">Mizoram</option>
+              <option value="Nagaland">Nagaland</option>
+              <option value="Odisha">Odisha</option>
+              <option value="Punjab">Punjab</option>
+              <option value="Rajasthan">Rajasthan</option>
+              <option value="Sikkim">Sikkim</option>
+              <option value="Tamil Nadu">Tamil Nadu</option>
+              <option value="Telangana">Telangana</option>
+              <option value="Tripura">Tripura</option>
+              <option value="Uttar Pradesh">Uttar Pradesh</option>
+              <option value="Uttarakhand">Uttarakhand</option>
+              <option value="West Bengal">West Bengal</option>
+            </select>
+          </div>          
+        <div class="items-list" id="itemsList"></div>
+      </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Shipping Wars. All rights reserved.</p>
+  </footer>
+
+<!-- Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+
+    <!-- firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import {
+          getFirestore,
+          collection,
+          addDoc,
+          doc,
+          getDoc,
+          getDocs,
+          serverTimestamp,
+        } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+      
+        // Firebase config
+        const firebaseConfig = {
+          apiKey: "AIzaSyCt6CP-X7ds3fh8XK72fDx-4sMk1LFcOZk",
+          authDomain: "shipping-wars.firebaseapp.com",
+          projectId: "shipping-wars",
+          storageBucket: "shipping-wars.firebasestorage.app",
+          messagingSenderId: "513999333956",
+          appId: "1:513999333956:web:8327a647aa8f3efa15ea11",
+          measurementId: "G-JPYNN55M3X",
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+      
+        const postForm = document.getElementById("postForm");
+        const itemsList = document.getElementById("itemsList"); // For displaying cards
+      
+        // Form submission
+        postForm?.addEventListener("submit", async (e) => {
+          e.preventDefault();
+      
+          const itemName = document.getElementById("itemName").value;
+          const itemDesc = document.getElementById("itemDesc").value;
+          const pickup = document.getElementById("pickup").value;
+          const dropoff = document.getElementById("dropoff").value;
+          const state = document.getElementById("state").value;
+          const imageURL = document.getElementById("imageURL").value;
+          const startTime = document.getElementById("startTime").value;
+          const endTime = document.getElementById("endTime").value;
+      
+          const user = auth.currentUser;
+          if (!user) {
+            alert("You must be logged in to post.");
+            return;
+          }
+      
+          try {
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            const userData = userDoc.data();
+      
+            await addDoc(collection(db, "shippingPosts"), {
+              itemName,
+              itemDesc,
+              pickup,
+              dropoff,
+              state,
+              imageURL,
+              startTime,
+              endTime,
+              createdBy: user.uid,
+              createdByName: userData?.username || "Anonymous",
+              createdByEmail: userData?.email || user.email,
+              bids: [],
+              createdAt: serverTimestamp(),
+            });
+      
+            alert("Item posted successfully!");
+            postForm.reset();
+      
+            // Optionally reload the list after posting
+            loadShippingPosts();
+          } catch (err) {
+            console.error("Error posting item:", err);
+            alert("Error posting item. Check console for details.");
+          }
+        });
+      
+        // Load items from Firestore
+        const stateFilter = document.getElementById("stateFilter");
+
+        async function loadShippingPosts(filterState = "All") {
+        itemsList.innerHTML = ""; // Clear existing items
+
+        try {
+            const querySnapshot = await getDocs(collection(db, "shippingPosts"));
+            querySnapshot.forEach((doc) => {
+            const data = doc.data();
+
+            // Check if filtering is needed
+            if (filterState === "All" || data.state === filterState) {
+                const card = document.createElement("div");
+                card.className = "item-card";
+                card.innerHTML = `
+                <h3>${data.itemName}</h3>
+                <img src="${data.imageURL}" alt="${data.itemName}" class="item-image" />
+                <p><strong>Description:</strong> ${data.itemDesc}</p>
+                <p><strong>Pickup:</strong> ${data.pickup}, ${data.state}</p>
+                <p><strong>Drop-off:</strong> ${data.dropoff}</p>
+                <p><strong>Auction Time:</strong><br>
+                    <strong>Start:</strong> ${data.startTime}<br>
+                    <strong>End:</strong> ${data.endTime}</p>
+                <a href="./winner.html?postId=${doc.id}" class="btn btn-primary mt-2">View Details & Winner</a>
+              `;
+
+                itemsList.appendChild(card);
+            }
+            });
+        } catch (err) {
+            console.error("Error loading posts:", err);
+        }
+
+        }
+      
+        // Load on page load
+        loadShippingPosts();
+
+        stateFilter.addEventListener("change", () => {
+            const selectedState = stateFilter.value;
+            loadShippingPosts(selectedState);
+        });
+
+      </script>
+      
+   
+
+</body>
+</html>
